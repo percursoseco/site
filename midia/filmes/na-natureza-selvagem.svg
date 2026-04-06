@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder de banner</title>
+  <desc id="desc">Espaco reservado para banner de filme.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e6efe1"/>
+      <stop offset="48%" stop-color="#f3ecdf"/>
+      <stop offset="100%" stop-color="#cad9c1"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#efe2cb"/>
+      <stop offset="100%" stop-color="#d8c9b0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" rx="36" fill="url(#bg)"/>
+  <circle cx="896" cy="160" r="84" fill="url(#sun)" opacity="0.85"/>
+  <path d="M0 536C120 482 242 488 348 524C458 562 574 574 700 530C824 486 944 458 1200 520V675H0Z" fill="#a6bc8a" opacity="0.78"/>
+  <path d="M0 580C146 526 242 534 360 568C498 608 630 612 756 566C886 518 1024 496 1200 556V675H0Z" fill="#6f8a58" opacity="0.72"/>
+  <path d="M0 624C150 592 280 598 426 632C576 668 726 664 876 626C1000 594 1098 590 1200 616V675H0Z" fill="#466045" opacity="0.76"/>
+  <path d="M168 540C254 462 322 390 392 262" fill="none" stroke="#5f4a39" stroke-width="10" stroke-linecap="round"/>
+  <g fill="#97b376" stroke="#4e6847" stroke-opacity="0.3" stroke-width="2">
+    <path d="M404 266C438 244 466 210 454 174C414 186 390 220 404 266Z"/>
+    <path d="M412 270C374 246 356 212 370 178C408 194 428 228 412 270Z"/>
+    <path d="M330 356C362 334 388 302 376 266C340 280 318 314 330 356Z"/>
+    <path d="M338 360C302 338 282 306 294 272C334 286 350 320 338 360Z"/>
+  </g>
+  <text x="90" y="108" fill="#2f4f39" font-family="Georgia, 'Times New Roman', serif" font-size="42" letter-spacing="5">BANNER DO FILME</text>
+  <text x="90" y="156" fill="#7b5b45" font-family="Arial, Helvetica, sans-serif" font-size="24" letter-spacing="2">substitua por sua imagem</text>
+</svg>

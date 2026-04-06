@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder de capa</title>
+  <desc id="desc">Espaco reservado para capa de livro.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dce8d8"/>
+      <stop offset="55%" stop-color="#f3ecdf"/>
+      <stop offset="100%" stop-color="#d8c9b0"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a6c082"/>
+      <stop offset="100%" stop-color="#58724a"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" rx="44" fill="url(#bg)"/>
+  <rect x="30" y="30" width="540" height="740" rx="30" fill="none" stroke="#6f8a58" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M138 648C224 558 270 474 312 366C346 278 388 174 456 106" fill="none" stroke="#5f4a39" stroke-width="10" stroke-linecap="round"/>
+  <path d="M212 532C242 516 274 490 300 446" fill="none" stroke="#7b5b45" stroke-width="5" stroke-linecap="round"/>
+  <path d="M280 412C316 394 350 362 378 316" fill="none" stroke="#7b5b45" stroke-width="5" stroke-linecap="round"/>
+  <path d="M328 282C360 270 394 238 420 206" fill="none" stroke="#7b5b45" stroke-width="5" stroke-linecap="round"/>
+  <g fill="url(#leaf)" stroke="#486645" stroke-opacity="0.28" stroke-width="2">
+    <path d="M296 447C332 423 354 382 330 336C288 354 280 402 296 447Z"/>
+    <path d="M304 449C264 425 242 390 258 352C300 370 316 404 304 449Z"/>
+    <path d="M378 316C414 294 438 254 420 214C380 230 360 272 378 316Z"/>
+    <path d="M386 320C350 294 336 260 352 222C390 240 404 274 386 320Z"/>
+    <path d="M424 206C456 184 480 148 466 116C430 130 408 164 424 206Z"/>
+    <path d="M432 208C398 186 382 154 394 122C432 138 446 170 432 208Z"/>
+    <path d="M224 534C254 514 272 484 260 450C226 462 210 492 224 534Z"/>
+    <path d="M232 536C202 516 188 488 198 458C230 470 244 498 232 536Z"/>
+  </g>
+  <text x="70" y="108" fill="#2f4f39" font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="4">CAPA DO LIVRO</text>
+  <text x="70" y="154" fill="#7b5b45" font-family="Arial, Helvetica, sans-serif" font-size="22" letter-spacing="2">substitua por sua imagem</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder de retrato</title>
+  <desc id="desc">Espaco reservado para foto do orientador.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#edf2e6"/>
+      <stop offset="50%" stop-color="#f3ecdf"/>
+      <stop offset="100%" stop-color="#d8c9b0"/>
+    </linearGradient>
+    <linearGradient id="shape" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7f9b67"/>
+      <stop offset="100%" stop-color="#315b40"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" rx="40" fill="url(#bg)"/>
+  <circle cx="400" cy="326" r="126" fill="url(#shape)" opacity="0.88"/>
+  <path d="M236 800C256 640 320 568 400 568C480 568 544 640 564 800" fill="url(#shape)" opacity="0.92"/>
+  <circle cx="400" cy="326" r="176" fill="none" stroke="#6f8a58" stroke-opacity="0.22" stroke-width="2"/>
+  <path d="M144 868C252 786 336 760 400 760C466 760 552 786 656 868" fill="none" stroke="#7b5b45" stroke-opacity="0.18" stroke-width="12" stroke-linecap="round"/>
+  <text x="84" y="110" fill="#2f4f39" font-family="Georgia, 'Times New Roman', serif" font-size="40" letter-spacing="4">FOTO DO ORIENTADOR</text>
+  <text x="84" y="160" fill="#7b5b45" font-family="Arial, Helvetica, sans-serif" font-size="24" letter-spacing="2">substitua por sua imagem</text>
+</svg>

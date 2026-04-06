@@ -1,0 +1,1597 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Percursos Ecofilos&oacute;ficos</title>
+  <style>
+    :root {
+      --verde-escuro: #183728;
+      --verde: #315b40;
+      --verde-claro: #7f9b67;
+      --musgo: #5e7150;
+      --areia: #e6d8bf;
+      --offwhite: #f3ecdf;
+      --terra: #7b5b45;
+      --texto: #2d231a;
+      --branco: #ffffff;
+      --sombra: 0 14px 36px rgba(67, 52, 38, 0.16);
+      --sombra-forte: 0 22px 48px rgba(50, 40, 30, 0.22);
+      --grad-hero:
+        radial-gradient(circle at top left, rgba(127, 155, 103, 0.22), transparent 34%),
+        radial-gradient(circle at top right, rgba(123, 91, 69, 0.16), transparent 26%),
+        linear-gradient(180deg, #e6efe1 0%, #f3ecdf 48%, #dce8d8 100%);
+      --grad-verde: linear-gradient(135deg, #183728, #315b40, #6f8a58);
+      --grad-terra: linear-gradient(135deg, #5a4638, #7b5b45, #a17a60);
+      --decor-drift: 0px;
+      --decor-rotate: 0deg;
+      --scroll-depth: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--grad-hero);
+      color: var(--texto);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+    }
+
+    header,
+    main,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .decor-branches {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .branch {
+      position: absolute;
+      width: min(27vw, 300px);
+      height: min(80vh, 760px);
+      opacity: var(--branch-opacity, 0.44);
+      filter: drop-shadow(0 22px 30px rgba(53, 67, 43, 0.12));
+      transform:
+        translate3d(0, calc(var(--decor-drift) * var(--branch-drift, 0.3)), 0)
+        rotate(calc(var(--branch-base-rotate, 0deg) + (var(--decor-rotate) * var(--branch-direction, 1))))
+        scale(var(--branch-scale, 1));
+      transform-origin: top center;
+      will-change: transform;
+    }
+
+    .branch-left {
+      top: 26px;
+      left: -84px;
+      --branch-base-rotate: -4deg;
+      --branch-direction: -1;
+      --branch-drift: -0.24;
+      --branch-opacity: 0.5;
+    }
+
+    .branch-right {
+      top: 230px;
+      right: -94px;
+      --branch-base-rotate: 5deg;
+      --branch-direction: 1;
+      --branch-drift: 0.2;
+      --branch-opacity: 0.38;
+    }
+
+    .branch-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center top;
+      mix-blend-mode: multiply;
+      filter: saturate(0.98) contrast(1.04) hue-rotate(-6deg);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.72) 18%, #000 34%, #000 66%, rgba(0, 0, 0, 0.72) 82%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.72) 18%, #000 34%, #000 66%, rgba(0, 0, 0, 0.72) 82%, transparent 100%);
+    }
+
+    .branch-right .branch-image {
+      transform: scaleX(-1);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(243, 236, 223, 0.84);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(123, 91, 69, 0.18);
+      animation: fadeDown 0.8s ease;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--verde-escuro);
+      letter-spacing: 0.3px;
+      position: relative;
+    }
+
+    .logo::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--verde), transparent);
+      opacity: 0.7;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--texto);
+      font-weight: 600;
+      transition: 0.25s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--terra);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--terra);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      padding: 72px 0 54px;
+      position: relative;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(8px);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 260px;
+      height: 260px;
+      background: rgba(127, 155, 103, 0.25);
+      top: 10px;
+      right: 6%;
+      animation: floatBlob 7s ease-in-out infinite;
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      background: rgba(123, 91, 69, 0.18);
+      bottom: 10px;
+      left: 5%;
+      animation: floatBlob 9s ease-in-out infinite reverse;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 32px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--grad-verde);
+      color: var(--branco);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 24px rgba(50, 69, 43, 0.24);
+      animation: softPulse 3s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 4vw, 4.4rem);
+      line-height: 1.1;
+      color: #233624;
+      margin-bottom: 18px;
+      animation: fadeUp 0.9s ease;
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      max-width: 700px;
+      margin-bottom: 28px;
+      animation: fadeUp 1.1s ease;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeUp 1.25s ease;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 13px 22px;
+      border-radius: 16px;
+      font-weight: 700;
+      transition: 0.28s ease;
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 120%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+      transition: 0.55s ease;
+    }
+
+    .btn:hover::before {
+      left: 120%;
+    }
+
+    .btn-primary {
+      background: var(--grad-verde);
+      color: var(--branco);
+      box-shadow: 0 12px 26px rgba(24, 55, 40, 0.24);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 16px 30px rgba(24, 55, 40, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(230, 216, 191, 0.76);
+      color: #4b3729;
+      border: 1px solid rgba(123, 91, 69, 0.2);
+      box-shadow: 0 8px 22px rgba(90, 70, 56, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: #efe2cb;
+      transform: translateY(-3px) scale(1.01);
+    }
+
+    .btn-3 {
+      background: rgba(230, 216, 191, 0.76);
+      color: #4b3729;
+      border: 1px solid rgba(123, 91, 69, 0.2);
+      box-shadow: 0 8px 22px rgba(90, 70, 56, 0.1);
+    }
+
+    .btn-3:hover {
+      background: #efe2cb;
+      transform: translateY(-3px) scale(1.01);
+    }
+
+    .hero-card,
+    .info-card,
+    .content-card,
+    .about-box,
+    .search-box input {
+      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(244, 236, 221, 0.92));
+      border-radius: 28px;
+      box-shadow: var(--sombra);
+      border: 1px solid rgba(123, 91, 69, 0.1);
+    }
+
+    .hero-card {
+      padding: 28px;
+      animation: fadeUp 1s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sombra-forte);
+    }
+
+    .hero-card h3 {
+      color: var(--verde-escuro);
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .carousel-card {
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      min-height: 200px;
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .carousel-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 46%;
+      background: linear-gradient(180deg, transparent, rgba(16, 25, 17, 0.62));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .carousel-card.large {
+      min-height: 260px;
+    }
+
+    .nature-carousel {
+      position: relative;
+      height: 100%;
+      min-height: inherit;
+    }
+
+    .carousel-track {
+      position: relative;
+      height: 100%;
+      min-height: inherit;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05);
+      transition: opacity 0.6s ease, transform 0.8s ease;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      display: block;
+      object-fit: cover;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 18px;
+      z-index: 2;
+      color: var(--branco);
+      text-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel-caption h3 {
+      color: inherit;
+      margin-bottom: 4px;
+      font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+    }
+
+    .carousel-caption p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      max-width: 34ch;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      inset: 16px 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .carousel-nav {
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.26);
+      color: var(--branco);
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(20, 27, 17, 0.2);
+      transition: transform 0.25s ease, background 0.25s ease;
+      pointer-events: auto;
+    }
+
+    .carousel-nav:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.38);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 22px;
+      bottom: 18px;
+      display: flex;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .carousel-card.large .carousel-dots {
+      left: auto;
+      right: 22px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.46);
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--branco);
+      transform: scale(1.18);
+    }
+
+    .hero-side-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .info-card {
+      padding: 24px;
+      color: var(--branco);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: var(--sombra-forte);
+    }
+
+    .info-card.verde {
+      background: var(--grad-verde);
+    }
+
+    .info-card.terra {
+      background: var(--grad-terra);
+    }
+
+    section {
+      padding: 28px 0 70px;
+    }
+
+    .section-title {
+      margin-bottom: 22px;
+      animation: fadeUp 0.8s ease;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--verde-escuro);
+      margin-bottom: 8px;
+    }
+
+    .search-box {
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 260px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(123, 91, 69, 0.16);
+      outline: none;
+      background: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      transition: 0.25s ease;
+    }
+
+    .search-box input:focus {
+      transform: translateY(-2px);
+      border-color: rgba(49, 91, 64, 0.4);
+      box-shadow: 0 12px 26px rgba(94, 113, 80, 0.16);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      background: rgba(243, 236, 223, 0.88);
+      color: var(--texto);
+      border: 1px solid rgba(123, 91, 69, 0.14);
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 8px 18px rgba(67, 52, 38, 0.08);
+    }
+
+    .tab-btn:hover,
+    .tab-btn.active {
+      background: var(--grad-verde);
+      color: var(--branco);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px rgba(24, 55, 40, 0.22);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .content-card {
+      padding: 22px;
+      transition: 0.32s ease;
+      animation: fadeUp 0.7s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-card.has-media {
+      padding-top: 0;
+    }
+
+    .content-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(127,155,103,0.14), transparent 42%, rgba(123,91,69,0.12));
+      opacity: 0;
+      transition: 0.3s ease;
+      pointer-events: none;
+    }
+
+    .content-card:hover::before {
+      opacity: 1;
+    }
+
+    .content-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 18px 35px rgba(82, 64, 49, 0.2);
+    }
+
+    .card-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .content-media {
+      position: relative;
+      margin: 0 -22px 18px;
+      border-radius: 26px 26px 22px 22px;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(123, 91, 69, 0.1);
+      box-shadow: inset 0 -24px 34px rgba(24, 55, 40, 0.08);
+      height: var(--media-collapsed, 180px);
+      transition: height 0.38s ease, box-shadow 0.38s ease;
+    }
+
+    .content-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.42s ease, filter 0.42s ease;
+    }
+
+    .book-card,
+    .film-card,
+    .author-card {
+      --media-collapsed: auto;
+      --media-expanded: auto;
+      --frame-shadow:
+        0 18px 30px rgba(68, 54, 41, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+      --frame-hover-shadow:
+        0 22px 34px rgba(68, 54, 41, 0.16),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .book-card {
+      --frame-width: 240px;
+      --frame-bg: linear-gradient(180deg, rgba(220, 232, 216, 0.78), rgba(243, 236, 223, 0.98));
+    }
+
+    .film-card {
+      --frame-width: 208px;
+      --frame-bg: linear-gradient(180deg, rgba(232, 221, 197, 0.82), rgba(243, 236, 223, 0.98));
+    }
+
+    .author-card {
+      --frame-width: 220px;
+      --frame-bg: linear-gradient(180deg, rgba(223, 234, 223, 0.82), rgba(243, 236, 223, 0.98));
+    }
+
+    .book-card .content-media,
+    .film-card .content-media,
+    .author-card .content-media {
+      margin: 10px auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(100%, var(--frame-width));
+      height: auto;
+      min-height: 0;
+      aspect-ratio: auto;
+      padding: 14px;
+      border-radius: 28px;
+      overflow: visible;
+      border: 1px solid rgba(123, 91, 69, 0.08);
+      background: var(--frame-bg);
+      box-shadow: var(--frame-shadow);
+    }
+
+    .book-card .content-media img,
+    .film-card .content-media img,
+    .author-card .content-media img {
+      width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: unset;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.82);
+      filter: drop-shadow(0 14px 20px rgba(40, 31, 24, 0.16));
+    }
+
+    .content-card.has-media:hover .content-media {
+      height: var(--media-expanded, 220px);
+      box-shadow: inset 0 -34px 42px rgba(24, 55, 40, 0.12);
+    }
+
+    .content-card.has-media:hover .content-media img {
+      transform: scale(1.04);
+      filter: saturate(1.03);
+    }
+
+    .content-card.has-media.book-card:hover .content-media,
+    .content-card.has-media.film-card:hover .content-media,
+    .content-card.has-media.author-card:hover .content-media {
+      height: auto;
+      box-shadow: var(--frame-hover-shadow);
+    }
+
+    .content-card.has-media.book-card:hover .content-media img,
+    .content-card.has-media.film-card:hover .content-media img,
+    .content-card.has-media.author-card:hover .content-media img {
+      transform: translateY(-4px) scale(1.01);
+      filter: saturate(1.02) drop-shadow(0 20px 26px rgba(40, 31, 24, 0.2));
+    }
+
+    .author-card .quote-box {
+      min-height: 92px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      background: linear-gradient(135deg, #d6e0cc, #efe6d7);
+      color: var(--verde-escuro);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px rgba(123, 91, 69, 0.08);
+    }
+
+    .content-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.18rem;
+      color: #274030;
+    }
+
+    .subtitle {
+      color: var(--musgo);
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .quote-box {
+      background: linear-gradient(135deg, #efe2d0, #f8f3ea);
+      border-left: 4px solid var(--terra);
+      padding: 12px 14px;
+      border-radius: 14px;
+      margin: 14px 0;
+      font-style: italic;
+      transition: 0.25s ease;
+    }
+
+    .content-card:hover .quote-box {
+      transform: translateX(3px);
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .about-box {
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(237, 227, 208, 0.92));
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: var(--sombra);
+      transition: 0.3s ease;
+      animation: fadeUp 0.8s ease;
+    }
+
+    .about-box:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--sombra-forte);
+    }
+
+    .mentor-highlight {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .mentor-main,
+    .mentor-meta {
+      display: grid;
+      gap: 22px;
+      align-content: start;
+    }
+
+    .mentor-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(127, 155, 103, 0.22), transparent 30%),
+        linear-gradient(135deg, rgba(255,255,255,0.92), rgba(232, 221, 197, 0.94));
+      border: 1px solid rgba(123, 91, 69, 0.12);
+      box-shadow: var(--sombra-forte);
+      animation: fadeUp 0.8s ease;
+    }
+
+    .mentor-card::after {
+      content: "";
+      position: absolute;
+      right: -30px;
+      bottom: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(127, 155, 103, 0.26), transparent 70%);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .mentor-kicker {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(49, 91, 64, 0.1);
+      color: var(--verde-escuro);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .mentor-name {
+      font-size: clamp(1.65rem, 2.3vw, 2.35rem);
+      line-height: 1.08;
+      color: var(--verde-escuro);
+      margin-bottom: 8px;
+    }
+
+    .mentor-role {
+      color: var(--terra);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .mentor-note {
+      color: rgba(45, 35, 26, 0.76);
+      font-size: 0.95rem;
+      margin-top: 16px;
+    }
+
+    .mentor-photo-card,
+    .mentor-photo-card:hover {
+      transform: none;
+      box-shadow: var(--sombra);
+    }
+
+    .mentor-photo-frame {
+      margin-top: 12px;
+      border-radius: 22px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(180deg, rgba(232, 221, 197, 0.9), rgba(220, 232, 214, 0.88));
+      border: 1px solid rgba(123, 91, 69, 0.1);
+    }
+
+    .mentor-photo-frame img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .mentor-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mentor-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(230, 216, 191, 0.82);
+      border: 1px solid rgba(123, 91, 69, 0.12);
+      color: #4b3729;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      padding: 30px 0 40px;
+      border-top: 1px solid rgba(123, 91, 69, 0.12);
+      background: linear-gradient(180deg, rgba(240, 231, 214, 0.76), rgba(224, 234, 218, 0.88));
+      text-align: center;
+      animation: fadeUp 1s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .tab-content {
+      animation: fadeTab 0.45s ease;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeTab {
+      from { opacity: 0; transform: translateY(14px) scale(0.995); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes softPulse {
+      0%, 100% { box-shadow: 0 10px 24px rgba(18, 63, 47, 0.18); }
+      50% { box-shadow: 0 14px 28px rgba(18, 63, 47, 0.28); }
+    }
+
+    @keyframes floatBlob {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-14px) translateX(10px); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @media (max-width: 1000px) {
+      .branch {
+        --branch-scale: 0.74;
+      }
+
+      .branch-left {
+        left: -122px;
+        top: 72px;
+      }
+
+      .branch-right {
+        right: -132px;
+        top: 320px;
+      }
+
+      .mentor-highlight {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid,
+      .about,
+      .cards-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .decor-branches {
+        display: none;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-grid,
+      .about,
+      .cards-grid,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="decor-branches" aria-hidden="true">
+    <div class="branch branch-left">
+      <img class="branch-image" src="ramos.png" alt="" />
+    </div>
+
+    <div class="branch branch-right">
+      <img class="branch-image" src="ramos.png" alt="" />
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <div class="logo">Percursos Ecofilos&oacute;ficos</div>
+      <nav class="nav-links">
+        <a href="#inicio">In&iacute;cio</a>
+        <a href="#acervo">Acervo</a>
+        <a href="#orientador">Orientador do projeto</a>
+        <a href="#sobre">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="tag">Projeto de Extens&atilde;o em Filosofia</span>
+          <h1>Percursos Ecofilos&oacute;ficos</h1>
+          <p>
+            Um estudo que entrela&ccedil;a ecologia e filosofia, com o objetivo de apresentar os impactos do Antropoceno sobre a natureza e promover um di&aacute;logo entre fil&oacute;sofos.
+          </p>
+          <div class="hero-buttons">
+            <a href="#acervo" class="btn btn-primary">Explorar acervo</a>
+            <a href="#sobre" class="btn btn-secondary">Conhecer o projeto</a>
+            <a href="#orientador" class="btn btn-3">Orientador</a>
+          </div>
+        </div>
+
+        <div class="hero-side-grid">
+          <div class="hero-card carousel-card large">
+            <div class="nature-carousel" data-autoplay="4200" aria-label="Carrossel de paisagens naturais amplas">
+              <div class="carousel-track">
+                <figure class="carousel-slide active">
+                  <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1400&q=80" alt="Floresta densa com luz atravessando as árvores" />
+                  <figcaption class="carousel-caption">
+                    <h3>Florestas vivas</h3>
+                    <p>Paisagens para abrir a seção com atmosfera orgânica e contemplativa.</p>
+                  </figcaption>
+                </figure>
+                <figure class="carousel-slide">
+                  <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80" alt="Lago cercado por montanhas e pinheiros" />
+                  <figcaption class="carousel-caption">
+                    <h3>Horizontes silenciosos</h3>
+                    <p>Água, relevo e profundidade visual para dar respiro ao topo da página.</p>
+                  </figcaption>
+                </figure>
+                <figure class="carousel-slide">
+                  <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=80" alt="Vale verde com névoa leve entre montanhas" />
+                  <figcaption class="carousel-caption">
+                    <h3>Névoa e relevo</h3>
+                    <p>Um ciclo de imagens voltado a natureza ampla, úmida e pulsante.</p>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="carousel-controls">
+                <button class="carousel-nav prev" type="button" aria-label="Imagem anterior">‹</button>
+                <button class="carousel-nav next" type="button" aria-label="Próxima imagem">›</button>
+              </div>
+              <div class="carousel-dots"></div>
+            </div>
+          </div>
+          <div class="mini-grid">
+            <div class="info-card carousel-card">
+              <div class="nature-carousel" data-autoplay="3600" aria-label="Carrossel de rios e cachoeiras">
+                <div class="carousel-track">
+                  <figure class="carousel-slide active">
+                    <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80" alt="Cachoeira caindo entre pedras cobertas por vegetação" />
+                    <figcaption class="carousel-caption">
+                      <h3>Águas em movimento</h3>
+                      <p>Rios, quedas e umidade para um bloco mais fresco e dinâmico.</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?auto=format&fit=crop&w=1200&q=80" alt="Rio sereno entre árvores altas" />
+                    <figcaption class="carousel-caption">
+                      <h3>Curso do rio</h3>
+                      <p>Transições suaves com foco em água, mata e profundidade.</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1200&q=80" alt="Campo florido iluminado pelo sol" />
+                    <figcaption class="carousel-caption">
+                      <h3>Clarões naturais</h3>
+                      <p>Um contraponto luminoso para variar o ritmo visual do card.</p>
+                    </figcaption>
+                  </figure>
+                </div>
+                <div class="carousel-controls">
+                  <button class="carousel-nav prev" type="button" aria-label="Imagem anterior">‹</button>
+                  <button class="carousel-nav next" type="button" aria-label="Próxima imagem">›</button>
+                </div>
+                <div class="carousel-dots"></div>
+              </div>
+            </div>
+            <div class="info-card carousel-card">
+              <div class="nature-carousel" data-autoplay="3900" aria-label="Carrossel de folhas, terra e texturas da natureza">
+                <div class="carousel-track">
+                  <figure class="carousel-slide active">
+                    <img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&fit=crop&w=1200&q=80" alt="Folhas verdes em primeiro plano com luz suave" />
+                    <figcaption class="carousel-caption">
+                      <h3>Detalhes orgânicos</h3>
+                      <p>Texturas de folhas e luz para um bloco mais íntimo.</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1441716844725-09cedc13a4e7?auto=format&fit=crop&w=1200&q=80" alt="Montanhas ao fundo com floresta e céu claro" />
+                    <figcaption class="carousel-caption">
+                      <h3>Terra e altitude</h3>
+                      <p>Variação de escala com rochas, mata e horizonte aberto.</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Pássaro sobre galho em ambiente natural" />
+                    <figcaption class="carousel-caption">
+                      <h3>Vida selvagem</h3>
+                      <p>Um fechamento mais delicado, centrado em presença e observação.</p>
+                    </figcaption>
+                  </figure>
+                </div>
+                <div class="carousel-controls">
+                  <button class="carousel-nav prev" type="button" aria-label="Imagem anterior">‹</button>
+                  <button class="carousel-nav next" type="button" aria-label="Próxima imagem">›</button>
+                </div>
+                <div class="carousel-dots"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="acervo">
+      <div class="container">
+        <div class="section-title">
+          <h2>Acervo Ecofilos&oacute;fico</h2>
+          <p>Pesquise conte&uacute;dos e navegue entre livros, autores e filmes.</p>
+        </div>
+
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Buscar por tema, autor, livro ou filme..." />
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="livros">livros</button>
+          <button class="tab-btn" data-tab="autores">autores</button>
+          <button class="tab-btn" data-tab="filmes">filmes</button>
+        </div>
+
+        <div id="livros" class="tab-content">
+          <div class="cards-grid searchable-grid">
+            <article class="content-card searchable-item has-media book-card" data-search="a queda do ceu davi kopenawa bruce albert yanomami amazonia antropoceno">
+              <div class="content-media">
+                <img src="midia/livros/aquedadoceu.jpg" alt="Capa do livro A queda do céu" />
+              </div>
+              <div class="card-copy">
+              <span class="badge">Livro</span>
+              <h3>A queda do céu</h3>
+              <div class="subtitle">Davi Kopenawa e Bruce Albert</div>
+              <p>Uma obra que faz uma denúncia política, destacando o garimpo ilegal que causa destruição na Amazônia, quando ocorre a chegada dos brancos. 
+                Com a voz de um Xamã Yanomami, Davi Kopenawa, ressaltando de forma crítica e reflexiva discorrendo sobre a cultura ancestral de seu povo para um antropólogo francês, sendo Bruce Albert.</p>
+              </div>
+            </article>
+
+            <article class="content-card searchable-item has-media book-card" data-search="ideias para adiar o fim do mundo ailton krenak ecologia ancestralidade critica ao progresso">
+              <div class="content-media">
+                <img src="midia/livros/ideias-para-adiar-o-fim-do-mundo.jpg" alt="Capa do livro Ideias para adiar o fim do mundo" />
+              </div>
+              <div class="card-copy">
+              <span class="badge">Livro</span>
+              <h3>Ideias para adiar o fim do mundo</h3>
+              <div class="subtitle">Ailton Krenak</div>
+              <p>O autor critica a separação de natureza e humanidade. Valorizando a ancestralidade, a resistência indígena em meio a destruição do homem e sua forma predatória de viver. 
+                Destacando que o humano vê a terra como algo a ser explorado e não como uma parte de um todo.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div id="autores" class="tab-content hidden">
+          <div class="cards-grid searchable-grid">
+            <article class="content-card searchable-item has-media author-card" data-search="davi kopenawa yanomami autor lideranca indigena amazonia">
+              <div class="content-media">
+                <img src="midia/autores/davi-kopenawa.jpg" alt="Retrato de Davi Kopenawa" />
+              </div>
+              <div class="card-copy">
+                <span class="badge">Autor</span>
+                <h3>Davi Kopenawa</h3>
+                <div class="quote-box">Cosmologia yanomami, floresta viva e crítica ao avanço destrutivo sobre os territórios indígenas.</div>
+                <p>Xamã e liderança yanomami. Sua reflexão articula memória, território e resistência em defesa da Amazônia.</p>
+              </div>
+            </article>
+
+            <article class="content-card searchable-item has-media author-card" data-search="ailton krenak autor filosofia indigena ecologia ancestralidade">
+              <div class="content-media">
+                <img src="midia/autores/ailton-krenak.jpg" alt="Retrato de Ailton Krenak" />
+              </div>
+              <div class="card-copy">
+                <span class="badge">Autor</span>
+                <h3>Ailton Krenak</h3>
+                <div class="quote-box">Ancestralidade, crítica ao progresso predatório e defesa de outras formas de existir no mundo.</div>
+                <p>Escritor, filósofo e liderança indígena brasileira. Sua obra aproxima ecologia, política e imaginação coletiva.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div id="filmes" class="tab-content hidden">
+          <div class="cards-grid searchable-grid">
+            <article class="content-card searchable-item has-media film-card" data-search="princesa mononoke hayao miyazaki filme floresta industria natureza">
+              <div class="content-media">
+                <img src="midia/filmes/a-princesa-mononoke.png" alt="Poster do filme Princesa Mononoke" />
+              </div>
+              <div class="card-copy">
+                <span class="badge">Filme</span>
+                <h3>Princesa Mononoke</h3>
+                <div class="subtitle">Hayao Miyazaki, 1997</div>
+                <p>Explora o conflito entre expansão técnica, exploração de recursos e a vitalidade espiritual da floresta.</p>
+              </div>
+            </article>
+
+            <article class="content-card searchable-item has-media film-card" data-search="na natureza selvagem into the wild sean penn filme natureza consumo">
+              <div class="content-media">
+                <img src="midia/filmes/na-natureza-selvagem.png" alt="Poster do filme Na natureza selvagem" />
+              </div>
+              <div class="card-copy">
+                <span class="badge">Filme</span>
+                <h3>Na natureza selvagem</h3>
+                <div class="subtitle">Sean Penn, 2007</div>
+                <p>Encena a ruptura com a lógica consumista e a busca por outra relação entre liberdade, experiência e natureza.</p>
+              </div>
+            </article>
+
+            <article class="content-card searchable-item has-media film-card" data-search="o sal da terra wim wenders juliano salgado filme territorio fotografia">
+              <div class="content-media">
+                <img src="midia/filmes/o-sal-da-terra.jpg" alt="Poster do filme O sal da terra" />
+              </div>
+              <div class="card-copy">
+                <span class="badge">Filme</span>
+                <h3>O sal da terra</h3>
+                <div class="subtitle">Wim Wenders e Juliano Ribeiro Salgado, 2014</div>
+                <p>Relaciona imagem, território e devastação ambiental a partir do percurso fotográfico de Sebastião Salgado.</p>
+              </div>
+            </article>
+
+            <article class="content-card searchable-item has-media film-card" data-search="avatar james cameron filme extrativismo colonialismo ecologia">
+              <div class="content-media">
+                <img src="midia/filmes/avatar.jpg" alt="Poster do filme Avatar" />
+              </div>
+              <div class="card-copy">
+                <span class="badge">Filme</span>
+                <h3>Avatar</h3>
+                <div class="subtitle">James Cameron, 2009</div>
+                <p>Apresenta um confronto entre extrativismo, colonialismo e uma ecologia baseada em interdependência planetária.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+    </section>
+
+    <section id="orientador">
+      <div class="container">
+        <div class="section-title">
+          <h2>texto</h2>
+          <p>texto</p>
+        </div>
+
+        <div class="mentor-highlight">
+          <div class="mentor-main">
+            <article class="mentor-card">
+              <span class="mentor-kicker">texto</span>
+              <h3 class="mentor-name">texto</h3>
+              <p class="mentor-role">texto</p>
+              <div class="quote-box">
+                texto
+              </div>
+              <p>
+                texto
+              </p>
+              <div class="mentor-tags">
+                <span class="mentor-tag">texto</span>
+                <span class="mentor-tag">texto</span>
+                <span class="mentor-tag">texto</span>
+                <span class="mentor-tag">texto</span>
+              </div>
+              <p class="mentor-note"></p>
+            </article>
+
+            <div class="about-box">
+              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">texto</h3>
+              <p>
+                texto
+              </p>
+            </div>
+
+            <div class="about-box">
+              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">texto</h3>
+              <p>
+                texto
+              </p>
+            </div>
+          </div>
+
+          <div class="mentor-meta">
+            <div class="about-box mentor-photo-card">
+              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">texto</h3>
+              <div class="mentor-photo-frame">
+                <img src="midia/orientador/foto-orientador.svg" alt="texto" />
+              </div>
+              <p class="mentor-note">texto</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="container">
+        <div class="section-title">
+          <h2>Sobre o projeto</h2>
+          <p>texto</p>
+        </div>
+
+        <div class="about">
+          <div class="about-box">
+            <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Objetivo</h3>
+            <p>
+              texto
+            </p>
+          </div>
+
+          <div class="about-box">
+            <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Expansões futuras</h3>
+            <p>
+              texto
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Percursos Ecofilos&oacute;ficos</strong></p>
+      <p>Filosofia, natureza e sensibilidade ecol&oacute;gica em um espa&ccedil;o digital de aprendizagem.</p>
+    </div>
+  </footer>
+
+  <script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const searchInput = document.getElementById('searchInput');
+    const root = document.documentElement;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const decorState = {
+      depth: 0,
+      drift: 0,
+      rotate: 0
+    };
+    const decorTarget = {
+      depth: 0,
+      drift: 0,
+      rotate: 0
+    };
+
+    let lastScrollY = window.scrollY;
+    let decorFrame = null;
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.getAttribute('data-tab');
+
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        tabContents.forEach(content => {
+          content.classList.add('hidden');
+        });
+
+        document.getElementById(target).classList.remove('hidden');
+        applySearch();
+      });
+    });
+
+    searchInput.addEventListener('input', applySearch);
+
+    function applySearch() {
+      const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+      const items = document.querySelectorAll(`#${activeTab} .searchable-item`);
+      const term = searchInput.value.toLowerCase().trim();
+
+      items.forEach(item => {
+        const text = item.getAttribute('data-search').toLowerCase();
+        item.style.display = text.includes(term) ? 'block' : 'none';
+      });
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function renderDecor() {
+      root.style.setProperty('--decor-drift', `${decorState.drift.toFixed(2)}px`);
+      root.style.setProperty('--decor-rotate', `${decorState.rotate.toFixed(2)}deg`);
+      root.style.setProperty('--scroll-depth', decorState.depth.toFixed(3));
+    }
+
+    function setDecorTargets() {
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const currentScrollY = window.scrollY;
+      const depth = clamp(currentScrollY / maxScroll, 0, 1);
+      const scrollDelta = currentScrollY - lastScrollY;
+      const velocity = clamp(scrollDelta * 0.02, -1.2, 1.2);
+
+      lastScrollY = currentScrollY;
+      decorTarget.depth = depth;
+      decorTarget.drift = depth * 18;
+      decorTarget.rotate = (Math.sin(depth * Math.PI * 1.2) * 0.35) + (velocity * 0.65);
+    }
+
+    function animateDecor() {
+      decorState.depth += (decorTarget.depth - decorState.depth) * 0.08;
+      decorState.drift += (decorTarget.drift - decorState.drift) * 0.09;
+      decorState.rotate += (decorTarget.rotate - decorState.rotate) * 0.1;
+      renderDecor();
+
+      const isSettled =
+        Math.abs(decorTarget.depth - decorState.depth) < 0.001 &&
+        Math.abs(decorTarget.drift - decorState.drift) < 0.08 &&
+        Math.abs(decorTarget.rotate - decorState.rotate) < 0.04;
+
+      if (isSettled) {
+        decorFrame = null;
+        return;
+      }
+
+      decorFrame = window.requestAnimationFrame(animateDecor);
+    }
+
+    function queueDecorAnimation() {
+      if (!decorFrame) {
+        decorFrame = window.requestAnimationFrame(animateDecor);
+      }
+    }
+
+    function handleDecorScroll() {
+      if (prefersReducedMotion.matches) {
+        if (decorFrame) {
+          window.cancelAnimationFrame(decorFrame);
+          decorFrame = null;
+        }
+
+        decorTarget.depth = 0;
+        decorTarget.drift = 0;
+        decorTarget.rotate = 0;
+        decorState.depth = 0;
+        decorState.drift = 0;
+        decorState.rotate = 0;
+        renderDecor();
+        lastScrollY = window.scrollY;
+        return;
+      }
+
+      setDecorTargets();
+      queueDecorAnimation();
+    }
+
+    setDecorTargets();
+    decorState.depth = decorTarget.depth;
+    decorState.drift = decorTarget.drift;
+    decorState.rotate = decorTarget.rotate;
+    renderDecor();
+    window.addEventListener('scroll', handleDecorScroll, { passive: true });
+    window.addEventListener('resize', handleDecorScroll);
+    prefersReducedMotion.addEventListener('change', handleDecorScroll);
+
+    const carousels = document.querySelectorAll('.nature-carousel');
+
+    carousels.forEach((carousel) => {
+      const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+      const dotsContainer = carousel.querySelector('.carousel-dots');
+      const prevButton = carousel.querySelector('.carousel-nav.prev');
+      const nextButton = carousel.querySelector('.carousel-nav.next');
+      const autoplayDelay = Number(carousel.dataset.autoplay) || 4000;
+      let currentIndex = 0;
+      let autoplayId = null;
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = `carousel-dot${index === 0 ? ' active' : ''}`;
+        dot.setAttribute('aria-label', `Ir para a imagem ${index + 1}`);
+        dot.addEventListener('click', () => {
+          updateCarousel(index);
+          restartAutoplay();
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = Array.from(dotsContainer.querySelectorAll('.carousel-dot'));
+
+      function updateCarousel(newIndex) {
+        currentIndex = (newIndex + slides.length) % slides.length;
+
+        slides.forEach((slide, index) => {
+          slide.classList.toggle('active', index === currentIndex);
+        });
+
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+        });
+      }
+
+      function startAutoplay() {
+        if (prefersReducedMotion.matches || slides.length < 2 || autoplayId) {
+          return;
+        }
+
+        autoplayId = window.setInterval(() => {
+          updateCarousel(currentIndex + 1);
+        }, autoplayDelay);
+      }
+
+      function stopAutoplay() {
+        if (autoplayId) {
+          window.clearInterval(autoplayId);
+          autoplayId = null;
+        }
+      }
+
+      function restartAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+      }
+
+      prevButton.addEventListener('click', () => {
+        updateCarousel(currentIndex - 1);
+        restartAutoplay();
+      });
+
+      nextButton.addEventListener('click', () => {
+        updateCarousel(currentIndex + 1);
+        restartAutoplay();
+      });
+
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+      carousel.addEventListener('focusin', stopAutoplay);
+      carousel.addEventListener('focusout', (event) => {
+        if (carousel.contains(event.relatedTarget)) {
+          return;
+        }
+
+        startAutoplay();
+      });
+
+      prefersReducedMotion.addEventListener('change', () => {
+        if (prefersReducedMotion.matches) {
+          stopAutoplay();
+          return;
+        }
+
+        restartAutoplay();
+      });
+
+      startAutoplay();
+    });
+  </script>
+</body>
+</html>
