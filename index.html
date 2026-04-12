@@ -914,6 +914,48 @@
       font-size: 0.9rem;
     }
 
+    .resource-links {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .resource-link {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: var(--texto);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(123, 91, 69, 0.12);
+      box-shadow: 0 10px 22px rgba(67, 52, 38, 0.07);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .resource-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 28px rgba(67, 52, 38, 0.12);
+      border-color: rgba(49, 91, 64, 0.24);
+    }
+
+    .resource-link strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--verde-escuro);
+    }
+
+    .resource-link span {
+      display: block;
+      color: rgba(45, 35, 26, 0.8);
+      font-size: 0.96rem;
+    }
+
+    .resource-helper {
+      margin-top: 14px;
+      color: rgba(45, 35, 26, 0.76);
+      font-size: 0.95rem;
+    }
+
     footer {
       padding: 30px 0 40px;
       border-top: 1px solid rgba(123, 91, 69, 0.12);
@@ -1033,6 +1075,7 @@
         <a href="#acervo">Acervo</a>
         <a href="#orientador">Orientador do projeto</a>
         <a href="#sobre">Sobre</a>
+        <a href="#referencias">Refer&ecirc;ncias</a>
       </nav>
     </div>
   </header>
@@ -1282,58 +1325,78 @@
             </article>
           </div>
         </div>
+      </div>
     </section>
 
     <section id="orientador">
       <div class="container">
         <div class="section-title">
-          <h2>texto</h2>
-          <p>texto</p>
+          <h2>Orientador do projeto</h2>
+          <p>Conheça um pouco sobre o orientador do projeto</p>
         </div>
 
         <div class="mentor-highlight">
           <div class="mentor-main">
             <article class="mentor-card">
-              <span class="mentor-kicker">texto</span>
-              <h3 class="mentor-name">texto</h3>
-              <p class="mentor-role">texto</p>
+              <span class="mentor-kicker">Sobre</span>
+              <h3 class="mentor-name">Quem é Mateus Uchôa?</h3>
+              <p class="mentor-role"></p>
               <div class="quote-box">
-                texto
+                Mateus Uchôa é bacharel e mestre em Filosofia e em Artes pela Universidade Federal do Ceará- UFC e
+                 doutor em Filosofia pela Universidade Federal de Minas Gerais - UFMG.
               </div>
               <p>
-                texto
+                "O professor se liga à eternidade. Ele nunca sabe quando cessa a sua influência."
               </p>
               <div class="mentor-tags">
-                <span class="mentor-tag">texto</span>
-                <span class="mentor-tag">texto</span>
-                <span class="mentor-tag">texto</span>
-                <span class="mentor-tag">texto</span>
+                <span class="mentor-tag">Inspirador</span>
+                <span class="mentor-tag">Orientador</span>
+                <span class="mentor-tag">Motivador</span>
+                <span class="mentor-tag">Comunicador</span>
               </div>
               <p class="mentor-note"></p>
             </article>
 
             <div class="about-box">
-              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">texto</h3>
+              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Area de atuação</h3>
               <p>
-                texto
+                Atualmente realiza pesquisa sobre pensamento indígena a partir da etnologia de 
+                 Eduardo Viveiros de Castro, e também da obra "A queda do céu", de Davi Kopenawa 
+                 e Bruce Albert, com ênfase na articulação de ideias ameríndias com questões da filosofia 
+                 especulativa contemporânea. Sendo professor de filosofia efetivado na Universidade 
+                 Estadual do Ceará - UECE, participando do programa de Pós Graduação em 
+                 filosofia e aulas para a graduação.
               </p>
             </div>
 
             <div class="about-box">
-              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">texto</h3>
-              <p>
-                texto
-              </p>
+              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Aulas</h3>
+              <p>Espa&ccedil;o reservado para organizar as aulas do orientador em v&iacute;deo.</p>
+              <div class="resource-links">
+                <a class="resource-link" href="https://youtu.be/ZFUT_FHPwAY?si=GsEBXa7Z9r4C85eP">
+                  <strong>Aula 1 - A Catástrofe do Antropoceno</strong>
+                  <span></span>
+                </a>
+                <a class="resource-link" href="https://youtu.be/tw58Evavgwk?si=iHcMfqhIP9TqXi5o">
+                  <strong>Aula 2 - Fabulações Multiespécies</strong>
+                  <span></span>
+                </a>
+                <a class="resource-link" href="https://youtu.be/rHnLn5Got6w?si=7w1dGCS_nl631UzF">
+                  <strong>Aula 3 - Alianças Terranas por um Mundo Por Vir</strong>
+                  <span></span>
+                </a>
+              </div>
+              <p class="resource-helper"></p>
             </div>
           </div>
 
           <div class="mentor-meta">
             <div class="about-box mentor-photo-card">
-              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">texto</h3>
+              <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Orientador</h3>
               <div class="mentor-photo-frame">
-                <img src="midia/orientador/foto-orientador.svg" alt="texto" />
+                <img src="midia/orientador/foto-orientador.jpeg" alt="texto" />
               </div>
-              <p class="mentor-note">texto</p>
+              <p class="mentor-note">Mateus Uchôa</p>
             </div>
           </div>
         </div>
@@ -1360,6 +1423,44 @@
             <p>
               texto
             </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="referencias">
+      <div class="container">
+        <div class="section-title">
+          <h2>Refer&ecirc;ncias</h2>
+          <p>Materiais que dialogam com o acervo e podem servir de base para aprofundar o projeto.</p>
+        </div>
+
+        <div class="about">
+          <div class="about-box">
+            <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Bibliografia</h3>
+            <p>KOPENAWA, Davi; ALBERT, Bruce. <strong>A queda do c&eacute;u</strong>. S&atilde;o Paulo: Companhia das Letras, 2015.</p>
+            <p style="margin-top: 14px;">KRENAK, Ailton. <strong>Ideias para adiar o fim do mundo</strong>. S&atilde;o Paulo: Companhia das Letras, 2019.</p>
+            <p style="margin-top: 14px;"></p>
+          </div>
+
+          <div class="about-box">
+            <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Filmografia e materiais audiovisuais</h3>
+            <p><strong>Princesa Mononoke</strong>. Dire&ccedil;&atilde;o de Hayao Miyazaki. Jap&atilde;o: Studio Ghibli, 1997.</p>
+            <p style="margin-top: 14px;"><strong>Na natureza selvagem</strong>. Dire&ccedil;&atilde;o de Sean Penn. Estados Unidos: Paramount Vantage, 2007.</p>
+            <p style="margin-top: 14px;"><strong>O sal da terra</strong>. Dire&ccedil;&atilde;o de Wim Wenders e Juliano Ribeiro Salgado. Brasil/Fran&ccedil;a/It&aacute;lia: Decia Films, 2014.</p>
+            <p style="margin-top: 14px;"><strong>Avatar</strong>. Dire&ccedil;&atilde;o de James Cameron. Estados Unidos: 20th Century Fox, 2009.</p>
+          </div>
+
+          <div class="about-box">
+            <h3 style="margin-bottom: 12px; color: var(--verde-escuro);">Sites</h3>
+            <p>Categoria pronta para reunir portais, bibliotecas digitais e p&aacute;ginas de apoio ao projeto.</p>
+            <div class="resource-links">
+              <a class="resource-link" href="https://www.ihu.unisinos.br/categorias/159-entrevistas/620796-mateus-uchoa?fbclid=Iwb21jcARH0IEBHXvbWf2xtABrD-8yaTPgu96F2Ejjby724qwAnlC0QAFx3c6Rvlcj4KuZswTexto">
+                <strong>Site 1 - Entrevista especial com Mateus Uchôa</strong>
+            <span>https://www.ihu.unisinos.br/categorias/159-entrevistas/620796-mateus-uchoa?fbclid=Iwb21jcARH0IEBHXvbWf2xtABrD-8yaTPgu96F2Ejjby724qwAnlC0QAFx3c6Rvlcj4KuZswTexto</span>
+              </a>
+            </div>
+            <p class="resource-helper"></p>
           </div>
         </div>
       </div>
